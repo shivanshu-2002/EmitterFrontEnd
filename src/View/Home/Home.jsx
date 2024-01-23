@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { FaCrown } from "react-icons/fa";
-import { LuCrown } from "react-icons/lu";
 import english from '../../assets/english.jpg';
 import hindi from '../../assets/hindi.jpg';
 import spanish from '../../assets/spanish.jpg'
