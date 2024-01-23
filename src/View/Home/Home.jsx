@@ -11,6 +11,7 @@ import russian from '../../assets/russian.jpg'
 import img2 from '../../assets/Premium Vector _ Quiz vector logo isolate on white, questionnaire icon, poll sign, flat bubble speech symbols, concept of social communication, chatting, interview.jpg'
 import QuizChallengeSection from '../../Components/Home/QuizChallengeSection';
 const Home = () => {
+
       const [filter, setFilter] = useState('');
       const generateContainerStyle = (img) => {
             return {
@@ -18,6 +19,7 @@ const Home = () => {
               backdropFilter: 'blur(2px)',
             };
           };
+          
       return (
             <div className='min-h-[100vh] py-10 w-[100%] flex flex-col gap-10'>
                   <div className='w-[80%] mx-auto  flex justify-between items-center'>

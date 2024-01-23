@@ -17,7 +17,7 @@ const QuizChallengeSection = ({ filter }) => {
  
 
 
-  const [quiz, setQuiz] = useState([]);
+  const [quiz, setQuiz] = useState(null);
   const data = {
     skip: 0,
     limit: 10,
@@ -64,9 +64,10 @@ const QuizChallengeSection = ({ filter }) => {
       {
         loading ? <Spinner /> : (
           <div className='flex flex-col items-center justify-center gap-2'>
+        
             {
-              quiz.length === 0 ? <div className='text-3xl font-semibold flex items-center justify-center gap-2 my-[100px]'>No Data found import <ImSad /> </div> :
-                quiz.map((item, index) => (
+              quiz!=null &&  quiz.length === 0 ? <div className='text-3xl font-semibold flex items-center justify-center gap-2 my-[100px]'>No Data found import <ImSad /> </div> :
+                quiz?.map((item, index) => (
                   <QuizDisplaySection
                     id={item._id}
                     key={index} // Add a unique key prop for each item in the list
