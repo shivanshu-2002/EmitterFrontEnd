@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import quiz from '../../assets/quiz.webp';
-import {apiCall} from '../../utils/ApiCall'
+import { apiCall } from '../../utils/ApiCall'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const Signup = () => {
+const Signup = ({ givenemail }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(givenemail);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [otp, setOtp] = useState('');
@@ -41,7 +41,7 @@ const Signup = () => {
     setIsValidPassword(password.trim() !== '');
     setIsValidConfirmPassword(confirmPassword.trim() === password.trim());
     setIsValidOtp(otp.trim() !== '');
-      if (
+    if (
       username.trim() !== '' &&
       firstName.trim() !== '' &&
       lastName.trim() !== '' &&
@@ -79,7 +79,7 @@ const Signup = () => {
       }
     }
   };
-  
+
 
   return (
     <div className='w-[100%] h-[80vh] flex'>
@@ -88,7 +88,7 @@ const Signup = () => {
       </div>
       <div className='w-[50%] h-full bg-gray-900'>
         <div className="flex bg-white flex-col justify-center items-center h-full ">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-black p-2">Sign Up</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-black p-2">Sign Up</h2>
           <div className=" p-8 rounded-md flex flex-row flex-wrap gap-3 min-w-[60%] min-h-[250px]">
             <input
               type="text"
@@ -136,6 +136,7 @@ const Signup = () => {
               className={`w-[45%] p-2 mb-4 border ${isValidEmail ? 'border-gray-400' : 'border-red-500'} rounded-md focus:outline-none focus:border-blue-500`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              readOnly  // Add the readOnly attribute
             />
             {!isValidEmail && <p className="text-red-500 text-sm mb-4">Invalid email format</p>}
 

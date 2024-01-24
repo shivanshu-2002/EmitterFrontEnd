@@ -38,7 +38,7 @@ const Navbar = () => {
         isLoggedIn ?   <div className="flex flex-row gap-2 items-center justify-center">Hello! {user.username  } <CgProfile size={30} className="hover:text-gray-600 cursor-pointer" onClick={()=>{navigate('/profile')}}/> <div className="hover:text-gray-500 cursor-pointer" onClick={handleLogOut}>Logout</div></div>: 
         <div className="flex flex-row  text-white">
               <div className="text-xl p-3 cursor-pointer  hover:text-gray-500" onClick={()=>{navigate('/login')}}>Login</div>
-              <div className="text-xl p-3 cursor-pointer hover:text-gray-500" onClick={()=>{navigate('/sendOtp')}}>Signup</div>
+              <div className="text-xl p-3 cursor-pointer hover:text-gray-500" onClick={()=>{navigate('/create-account')}}>Signup</div>
         </div>
        }
 

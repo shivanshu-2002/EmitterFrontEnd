@@ -3,8 +3,8 @@ import quiz from '../../assets/quiz.webp';
 import { useNavigate } from 'react-router-dom';
 import {apiCall} from '../../utils/ApiCall'
 import { toast } from 'react-toastify';
-const SendOtp = () => {
-  const [email, setEmail] = useState('');
+const SendOtp = ({setIsEmailField , email,setEmail}) => {
+  // const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   // State to manage form validation
@@ -22,7 +22,6 @@ const SendOtp = () => {
     setIsValidEmail(isValid);
     if (isValid) {
       try {
-    
         toast.info("Sending OTP. Please wait...", { autoClose: false, hideProgressBar: true });
         const obj = {
           email: email
@@ -31,7 +30,7 @@ const SendOtp = () => {
         if (sendOtpResponse.success) {
           toast.dismiss();
           toast.success("OTP sent successfully. Redirecting to signup.");
-          navigate('/signup');
+          setIsEmailField(true);
         } else {
           toast.dismiss();
           toast.error("Failed to send OTP. Please try again.");
