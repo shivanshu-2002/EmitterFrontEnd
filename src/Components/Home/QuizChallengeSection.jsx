@@ -28,7 +28,7 @@ const QuizChallengeSection = ({ filter }) => {
     const resp = await apiCall('/quiz/getQuizList', data)
     setQuiz(resp.data)
   }
-  console.log(quiz)
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
