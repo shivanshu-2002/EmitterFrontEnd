@@ -4,8 +4,10 @@ import { apiCall ,apiCallGet} from '../../utils/ApiCall';
 import  Result  from './Result';
 import Question from './component/Qustion'
 import Spinner from '../../Components/Spinner.jsx/Spinner';
+import { useCookies } from "react-cookie";
 
 const QuizDetail = () => {
+    const [cookies] = useCookies();
     const { pathname } = useLocation();
     const path = pathname.split('/')[pathname.split('/').length - 1];
     const [quizDetail, setQuizDetail] = useState(null);
@@ -15,7 +17,7 @@ const QuizDetail = () => {
 
     const getData = async () => {
         try {
-            const response = await apiCallGet(`/quiz/getQuizDetails/${path}`);
+            const response = await apiCallGet(`/quiz/getQuizDetails/${path}`,cookies);
             setQuizDetail(response.data[0]);
             // Initialize selectedOptions state with default values
             const initialSelectedOptions = response.data[0].questionsDetails.map((question) => ({
@@ -49,7 +51,7 @@ const QuizDetail = () => {
                 quizId: path,
                 userResponses: selectedOptions
             };
-            const response = await apiCall('/quiz/evaluateQuiz', data);
+            const response = await apiCall('/quiz/evaluateQuiz', data , cookies);
             setResult(response?.result)
             if(response.success){
                 setShowResult(true);
