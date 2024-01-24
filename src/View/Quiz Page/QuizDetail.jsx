@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { apiCall ,apiCallGet} from '../../utils/ApiCall';
 import  Result  from './Result';
+import Question from './component/Qustion'
+import Spinner from '../../Components/Spinner.jsx/Spinner';
 
 const QuizDetail = () => {
     const { pathname } = useLocation();
@@ -32,7 +34,6 @@ const QuizDetail = () => {
     }, []);
 
     const handleOptionSelect = (questionId, optionIndex) => {
-          console.log(optionIndex)
         setSelectedOptions((prevSelectedOptions) => {
             return prevSelectedOptions.map((question) =>
                 question.questionId === questionId
@@ -41,15 +42,14 @@ const QuizDetail = () => {
             );
         });
     };
+
     const handleSubmit = async () => {
         try {
             const data = {
                 quizId: path,
                 userResponses: selectedOptions
             };
-            console.log(data);
             const response = await apiCall('/quiz/evaluateQuiz', data);
-            console.log(response?.result);
             setResult(response?.result)
             if(response.success){
                 setShowResult(true);
@@ -58,8 +58,6 @@ const QuizDetail = () => {
             console.error('Error submitting quiz:', error);
         }
     };
-    
-
     return (
         <>
            {
@@ -77,37 +75,18 @@ const QuizDetail = () => {
                             <p className="">Language: {quizDetail.language}</p>
                             <p className=" ">Created At: {quizDetail.createdAt}</p>
                         </div>
-
-
                     </div>
                     {/* Questions */}
                     <ul>
                         {quizDetail.questionsDetails.map((question, index) => (
-                            <li key={index} className="mb-4">
-                                <p className='text-2xl text-center '>({Number(index) + 1}){question.text}</p>
-                                <div className="flex flex-row flex-wrap items-center justify-center  gap-4 mt-5 w-[60%] mx-auto">
-                                    {question.options.map((option, optionIndex) => (
-                                        <label key={optionIndex} className={`mb-2 p-3 border-2 w-[40%] cursor-pointer rounded-lg ${selectedOptions.find((q) => q.selectedOption === option) ? 'bg-green-600' : ''} hover:bg-green-600`}>
-                                            <input
-                                                type="radio"
-                                                name={`question_${question._id}`}
-                                                value={optionIndex}
-                                                checked={selectedOptions.find((q) => q.selectedOption === option)}
-                                                onChange={() => handleOptionSelect(question._id, option)}
-                                                className="mr-2"
-                                            />
-                                            {option}
-                                        </label>
-                                    ))}
-                                </div>
-                            </li>
+                               <Question question={question} index={index} selectedOptions={selectedOptions} handleOptionSelect={handleOptionSelect}/>
                         ))}
                     </ul>
 
                     <div className='text-center w-[200px] mx-auto text-gray-800 font-semibold text-xl hover:bg-green-500 cursor-pointer bg-white p-3 px-5 border-2 rounded-lg' onClick={handleSubmit}>Submit</div>
                 </div>
             ) : (
-                <p>Loading quiz details...</p>
+                <div className='w-[100vw] h-[100vh] flex justify-center items-center'><Spinner/></div>
             )}
         </div>
         </>

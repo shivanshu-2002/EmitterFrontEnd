@@ -63,8 +63,7 @@ const QuizChallengeSection = ({ filter }) => {
       </div>
       {
         loading ? <Spinner /> : (
-          <div className='flex flex-col items-center justify-center gap-2'>
-        
+          <div className='flex flex-col items-center justify-center gap-2'>  
             {
               quiz!=null &&  quiz.length === 0 ? <div className='text-3xl font-semibold flex items-center justify-center gap-2 my-[100px]'>No Data found import <ImSad /> </div> :
                 quiz?.map((item, index) => (

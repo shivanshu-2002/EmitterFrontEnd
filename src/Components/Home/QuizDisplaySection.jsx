@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModel from '../ConfirmationModel/ConfirmationModel';
-
+import { DataContext } from '../../utils/Context';
+import {toast} from 'react-toastify'
 
 const QuizDisplaySection = ({ id, title, description, language, questionCount }) => {
     const [openConfirmation, setOpenConfirmation] = useState(false);
     const navigate = useNavigate();
+    const {isLoggedIn} = useContext(DataContext)
     const handleNavigate = () => {
         setOpenConfirmation(true);
     }
     const navigateToQuiz = ()=>{
-        navigate(`/quiz/${id}`)
+        if(isLoggedIn){
+            navigate(`/quiz/${id}`)
+        }else{
+            toast.error("Please Login First")
+            setOpenConfirmation(false)
+        }
     }
     return (
         <>
