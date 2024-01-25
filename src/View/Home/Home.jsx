@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCrown } from "react-icons/fa";
 import english from '../../assets/english.jpg';
 import hindi from '../../assets/hindi.jpg';
@@ -6,20 +6,36 @@ import spanish from '../../assets/spanish.jpg'
 import user from '../../assets/User.jpg';
 import language from '../../assets/language.jpg';
 import quizs from '../../assets/quiz.jpg';
-import rating  from '../../assets/rating.jpg'
+import rating from '../../assets/rating.jpg'
 import russian from '../../assets/russian.jpg'
 import img2 from '../../assets/Premium Vector _ Quiz vector logo isolate on white, questionnaire icon, poll sign, flat bubble speech symbols, concept of social communication, chatting, interview.jpg'
 import QuizChallengeSection from '../../Components/Home/QuizChallengeSection';
+import { apiCallGet } from '../../utils/ApiCall';
+import Spinner from '../../Components/Spinner.jsx/Spinner';
 const Home = () => {
 
       const [filter, setFilter] = useState('');
       const generateContainerStyle = (img) => {
             return {
-              background: `linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), url('${img}') lightgray 50% / cover no-repeat`,
-              backdropFilter: 'blur(2px)',
+                  background: `linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), url('${img}') lightgray 50% / cover no-repeat`,
+                  backdropFilter: 'blur(2px)',
             };
-          };
-          
+      };
+
+      const [leaderBoardData, setLeaderBoardData] = useState(null);
+      const [isLoader, setIsLoader] = useState(false);
+
+      const getLeaderBoard = async () => {
+            const data = await apiCallGet('/user/leaderboard');
+            setLeaderBoardData(data.data);
+      }
+
+      useEffect(() => {
+            setIsLoader(true);
+            getLeaderBoard();
+            setIsLoader(false);
+      }, [])
+
       return (
             <div className='min-h-[100vh] py-10 w-[100%] flex flex-col gap-10'>
                   <div className='w-[80%] mx-auto  flex justify-between items-center'>
@@ -33,24 +49,7 @@ const Home = () => {
                         </div>
                   </div>
                   {/* Some stats */}
-                  <div className='w-[80%] h-[200px] flex items-center justify-between mx-auto'>
-                        <div className='w-[23%] cursor-pointer flex flex-col gap-2 items-center rounded-lg bg-gray-800 justify-center h-full hover:scale-105 hover:shadow-2xl transition-[2s] text-white hover:text-gray-300 border-[1px] border-gray-700' style={generateContainerStyle(user)}>
-                               <div className='text-3xl font-semibold'> Users</div>
-                               <div className='text-3xl font-semibold'> 100+</div>
-                        </div>
-                        <div className='w-[23%] cursor-pointer flex flex-col gap-2 items-center rounded-lg bg-gray-800 justify-center h-full hover:scale-105 hover:shadow-2xl transition-[2s] text-white hover:text-gray-300 border-[1px] border-gray-700' style={generateContainerStyle(language)}>
-                        <div className='text-3xl font-semibold'> Language</div>
-                               <div className='text-3xl font-semibold'> 10+</div>
-                        </div>
-                        <div className='w-[23%] cursor-pointer flex flex-col gap-2 items-center rounded-lg bg-gray-800 justify-center h-full hover:scale-105 hover:shadow-2xl transition-[2s] text-white hover:text-gray-300 border-[1px] border-gray-700' style={generateContainerStyle(quizs)}>
-                        <div className='text-3xl font-semibold'> Quiz</div>
-                               <div className='text-3xl font-semibold'> 50+</div>
-                        </div>
-                        <div className='w-[23%] cursor-pointer flex flex-col gap-2 items-center rounded-lg bg-gray-800 justify-center h-full hover:scale-105 hover:shadow-2xl transition-[2s] text-white hover:text-gray-300 border-[1px] border-gray-700' style={generateContainerStyle(rating)}>
-                             <div className='text-3xl font-semibold text-white'> Rating</div>
-                              <div className=' text-2xl font-semibold'>5+</div> 
-                        </div>
-                  </div>
+
                   {/* Leader Board */}
                   <div className='w-[100%] h-[450px]  flex flex-col items-center   justify-between '>
                         <div className='w-[80%] text-[32px] gap-3 font-semibold  items-center flex justify-center'>
@@ -58,41 +57,53 @@ const Home = () => {
                               <div> Leader Board</div>
                         </div>
                         <div className='w-[80%] h-full flex  items-center justify-center  rounded-full px-5 py-2 bg-gray-200'>
-                              <div className='relative w-[20%] mb-[70px] '>
-                                    <div className='relative top-1/2 w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
-                                          <div className='h-[40%] flex items-center justify-center  '>
-                                                <img src="https://api.dicebear.com/5.x/initials/svg?seed=John Doe" alt='image' className='w-[45%] rounded-full ' />
-                                          </div>
-                                          <div className='text-gray-800 font-semibold text-xl text-center'>Shivanshu Pandey</div>
-                                          <div>
-                                                <div className='text-gray-900 font-semibold text-center'>Total Points-40</div>
-                                                <div className='text-gray-900 font-semibold text-center'>Language-ENGLISH</div>
-                                          </div>
-                                          <div className='absolute top-3 right-2 text-yellow-400'><FaCrown className='text-yellow-600' size={30} /></div>
-                                    </div>
-                                    <div className='absolute top-1/2 left-[-110%] w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
-                                          <div className='h-[40%] flex items-center justify-center  '>
-                                                <img src="https://api.dicebear.com/5.x/initials/svg?seed=John Doe" alt='image' className='w-[45%] rounded-full ' />
-                                          </div>
-                                          <div className='text-gray-800 font-semibold text-xl text-center'>Shivanshu Pandey</div>
-                                          <div>
-                                                <div className='text-gray-900 font-semibold text-center'>Total Points-40</div>
-                                                <div className='text-gray-900 font-semibold text-center'>Language-ENGLISH</div>
-                                          </div>
-                                          <div className='absolute top-3 right-2 text-yellow-400'><FaCrown className='text-yellow-600' size={30} /></div>
-                                    </div>
-                                    <div className='absolute top-1/2 right-[-110%] w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
-                                          <div className='h-[40%] flex items-center justify-center  '>
-                                                <img src="https://api.dicebear.com/5.x/initials/svg?seed=John Doe" alt='image' className='w-[45%] rounded-full ' />
-                                          </div>
-                                          <div className='text-gray-800 font-semibold text-xl text-center'>Shivanshu Pandey</div>
-                                          <div>
-                                                <div className='text-gray-900 font-semibold text-center'>Total Points-40</div>
-                                                <div className='text-gray-900 font-semibold text-center'>Language-ENGLISH</div>
-                                          </div>
-                                          <div className='absolute top-3 right-2 text-yellow-400'><FaCrown className='text-yellow-600' size={30} /></div>
-                                    </div>
-                              </div>
+                              {
+                                    isLoader ? <Spinner /> : <>
+                                          {
+                                                leaderBoardData === null ? <div className='w-full h-full items-center justify-center text-2xl'>Cant fetch LeaderBoard Sorry!</div> :
+                                                 <div className='relative w-[20%] mb-[70px] '>
+                                                      <div className='relative top-1/2 w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
+                                                            <div className='h-[40%] flex items-center justify-center  '>
+                                                                  <img src={leaderBoardData[0].userImage} alt='image' className='w-[45%] rounded-full ' />
+                                                            </div>
+                                                            <div className='text-gray-800 font-semibold text-xl text-center'>{leaderBoardData[0].userName}</div>
+                                                            <div>
+                                                                  <div className='text-gray-900 font-semibold text-center'>Total Points-{leaderBoardData[0].totalPoints}</div>
+                                                            </div>
+                                                            <div className='absolute top-3 right-2 text-yellow-400'><FaCrown className='text-yellow-600' size={30} /></div>
+                                                      </div>
+                                                      <div className='absolute top-1/2 left-[-110%] w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
+                                                            <div className='h-[40%] flex items-center justify-center  '>
+                                                                  <img src={leaderBoardData[1].userImage} alt='image' className='w-[45%] rounded-full ' />
+                                                            </div>
+                                                            <div className='text-gray-800 font-semibold text-xl text-center'>{leaderBoardData[1].userName}</div>
+                                                            <div>
+                                                                  <div className='text-gray-900 font-semibold text-center'>Total Points-{leaderBoardData[1].totalPoints}</div>
+                                                                  
+                                                            </div>
+                                                            <div className='absolute top-3 right-2 text-yellow-400'>
+                                                            <FaCrown className='text-yellow-600' size={30} />
+                                                            <FaCrown className='text-yellow-600' size={30} />
+                                                            </div>
+                                                      </div>
+                                                      <div className='absolute top-1/2 right-[-110%] w-[100%] h-full  border-[1px] hover:scale-105 hover:shadow-2xl  shadow-blur-[3xl] transition-[2s] border-gray-400 p-2 rounded-lg flex flex-col justify-center gap-2'>
+                                                            <div className='h-[40%] flex items-center justify-center  '>
+                                                                  <img src={leaderBoardData[2].userImage} alt='image' className='w-[45%] rounded-full ' />
+                                                            </div>
+                                                            <div className='text-gray-800 font-semibold text-xl text-center'>{leaderBoardData[2].userName}</div>
+                                                            <div>
+                                                                  <div className='text-gray-900 font-semibold text-center'>Total Points-{leaderBoardData[2].totalPoints}</div>
+                                                                 
+                                                            </div>
+                                                            <div className='absolute top-3 right-2 text-yellow-400'>
+                                                            <FaCrown className='text-yellow-600' size={30} />
+                                                            <FaCrown className='text-yellow-600' size={30} />
+                                                            <FaCrown className='text-yellow-600' size={30} />
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          } </>
+                              }
                         </div>
                   </div>
                   {/* QUiz Language */}

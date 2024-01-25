@@ -1,7 +1,8 @@
 import axios from "axios";
 const mainUrl = 'https://weary-pike-sandals.cyclic.app/api/v1' //for Production
+// const mainUrl = 'http://localhost:3000/api/v1'
 
-// https://weary-pike-sandals.cyclic.app/api/v1
+
 const getToken = async () => {
     return await localStorage.getItem("token")
 }
